@@ -1,12 +1,25 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { HotelService } from './services/hotel.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'software';
+export class AppComponent implements OnInit {
+  customers: any[] = [];
+
+  constructor(private hotelService: HotelService) {}
+
+  ngOnInit() {
+    this.hotelService.getCustomers().subscribe(
+      (data) => {
+        this.customers = data;
+        console.log('Clientes:', data);
+      },
+      (error) => {
+        console.error('Error obteniendo clientes', error);
+      }
+    );
+  }
 }
